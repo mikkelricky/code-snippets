@@ -178,29 +178,31 @@ class Snippets implements LoggerAwareInterface
         $from = $spec['parameters']['from'] ?? $spec['parameters']['start'] ?? null;
         $to = $spec['parameters']['to'] ?? $spec['parameters']['end'] ?? null;
 
-        // Compute 1-based $fromLine and $toLine.
-        if (is_numeric($from)) {
-            $fromLine = (int)$from;
-        } else {
-            $fromLine = 1;
-            if (null !== $from) {
-                foreach ($lines as $index => $line) {
-                    if (false !== strpos($line, $from)) {
-                        $fromLine = $index + 1;
-                        break;
+        $fromLine = 1;
+        if (null !== $from) {
+            // Compute 1-based $fromLine and $toLine.
+            if (is_numeric($from)) {
+                $fromLine = (int)$from;
+            } else {
+                if (null !== $from) {
+                    foreach ($lines as $index => $line) {
+                        if (false !== strpos($line, $from)) {
+                            $fromLine = $index + 1;
+                            break;
+                        }
                     }
                 }
             }
         }
 
-        // to relative to from.
-        if (preg_match('/^\+(\d+)$/', $to, $matches)) {
-            $toLine = $fromLine + (int)$matches[1];
-        } elseif (is_numeric($to)) {
-            $toLine = (int)$to;
-        } else {
-            $toLine = count($lines)+1;
-            if (null !== $to) {
+        $toLine = count($lines)+1;
+        if (null !== $to) {
+            // to relative to from.
+            if (preg_match('/^\+(\d+)$/', $to, $matches)) {
+                $toLine = $fromLine + (int)$matches[1];
+            } elseif (is_numeric($to)) {
+                $toLine = (int)$to;
+            } else {
                 foreach ($lines as $index => $line) {
                     if ($index >= $fromLine - 1 && false !== strpos($line, $to)) {
                         $toLine = $index + 1;
@@ -244,13 +246,12 @@ class Snippets implements LoggerAwareInterface
         $snippetDelimiterStart = str_replace(array_keys($replacements), array_values($replacements), $codeDelimiterStart);
         $snippetDelimiterEnd = str_replace(array_keys($replacements), array_values($replacements), $codeDelimiterEnd);
 
-        $snippetSuffix = $spec['parameters']['suffix'] ?? '';
+        $snippet .= $spec['parameters']['suffix'] ?? '';
 
         return implode(PHP_EOL, [
             $snippetStart,
             $snippetDelimiterStart,
             $snippet,
-            $snippetSuffix,
             $snippetDelimiterEnd,
             $snippetEnd,
         ]);
