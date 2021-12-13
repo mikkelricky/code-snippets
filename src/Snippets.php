@@ -127,7 +127,7 @@ class Snippets implements LoggerAwareInterface
 
         libxml_use_internal_errors(true);
         // A space is added before `/>` to help the HTML parser.
-        $doc->loadHTML('<html ' . $s . ' />');
+        $doc->loadHTML('<?xml encoding="utf-8"?><html ' . $s . ' />');
 
         if (!empty(libxml_get_errors())) {
             throw new \InvalidArgumentException(sprintf('Cannot parse %s', $source));
@@ -183,10 +183,12 @@ class Snippets implements LoggerAwareInterface
             $fromLine = (int)$from;
         } else {
             $fromLine = 1;
-            foreach ($lines as $index => $line) {
-                if (false !== strpos($line, $from)) {
-                    $fromLine = $index+1;
-                    break;
+            if (null !== $from) {
+                foreach ($lines as $index => $line) {
+                    if (false !== strpos($line, $from)) {
+                        $fromLine = $index + 1;
+                        break;
+                    }
                 }
             }
         }
@@ -198,10 +200,12 @@ class Snippets implements LoggerAwareInterface
             $toLine = (int)$to;
         } else {
             $toLine = count($lines)+1;
-            foreach ($lines as $index => $line) {
-                if ($index >= $fromLine-1 && false !== strpos($line, $to)) {
-                    $toLine = $index+1;
-                    break;
+            if (null !== $to) {
+                foreach ($lines as $index => $line) {
+                    if ($index >= $fromLine - 1 && false !== strpos($line, $to)) {
+                        $toLine = $index + 1;
+                        break;
+                    }
                 }
             }
         }
@@ -240,10 +244,13 @@ class Snippets implements LoggerAwareInterface
         $snippetDelimiterStart = str_replace(array_keys($replacements), array_values($replacements), $codeDelimiterStart);
         $snippetDelimiterEnd = str_replace(array_keys($replacements), array_values($replacements), $codeDelimiterEnd);
 
+        $snippetSuffix = $spec['parameters']['suffix'] ?? '';
+
         return implode(PHP_EOL, [
             $snippetStart,
             $snippetDelimiterStart,
             $snippet,
+            $snippetSuffix,
             $snippetDelimiterEnd,
             $snippetEnd,
         ]);
