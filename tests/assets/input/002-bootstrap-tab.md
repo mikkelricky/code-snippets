@@ -11,5 +11,5 @@
 <!-- text-snippet(src="https://raw.githubusercontent.com/twbs/bootstrap/v5.1.3/js/tests/visual/tab.html" from=15 to=20) -->
 <!-- end-text-snippet -->
 
-<!-- text-snippet(src="https://raw.githubusercontent.com/twbs/bootstrap/v5.1.3/js/tests/visual/tab.html" from=15 to="+5") -->
+<!-- text-snippet(src="https://raw.githubusercontent.com/twbs/bootstrap/v5.1.3/js/tests/visual/tab.html" from=15 to="+6") -->
 <!-- end-text-snippet -->

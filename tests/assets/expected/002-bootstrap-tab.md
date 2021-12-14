@@ -48,7 +48,7 @@
 ```
 <!-- end-text-snippet -->
 
-<!-- text-snippet(src="https://raw.githubusercontent.com/twbs/bootstrap/v5.1.3/js/tests/visual/tab.html" from=15 to="+5") -->
+<!-- text-snippet(src="https://raw.githubusercontent.com/twbs/bootstrap/v5.1.3/js/tests/visual/tab.html" from=15 to="+6") -->
 ```html
     <div class="container">
       <h1>Tab <small>Bootstrap Visual Test</small></h1>

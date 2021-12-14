@@ -195,11 +195,11 @@ class Snippets implements LoggerAwareInterface
             }
         }
 
-        $toLine = count($lines)+1;
+        $toLine = count($lines);
         if (null !== $to) {
             // to relative to from.
             if (preg_match('/^\+(\d+)$/', $to, $matches)) {
-                $toLine = $fromLine + (int)$matches[1];
+                $toLine = $fromLine + (int)$matches[1] - 1;
             } elseif (is_numeric($to)) {
                 $toLine = (int)$to;
             } else {
