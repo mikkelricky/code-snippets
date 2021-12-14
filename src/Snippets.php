@@ -246,7 +246,9 @@ class Snippets implements LoggerAwareInterface
         $snippetDelimiterStart = str_replace(array_keys($replacements), array_values($replacements), $codeDelimiterStart);
         $snippetDelimiterEnd = str_replace(array_keys($replacements), array_values($replacements), $codeDelimiterEnd);
 
-        $snippet .= $spec['parameters']['suffix'] ?? '';
+        if (isset($spec['parameters']['suffix'])) {
+            $snippet .= PHP_EOL.$spec['parameters']['suffix'];
+        }
 
         return implode(PHP_EOL, [
             $snippetStart,
